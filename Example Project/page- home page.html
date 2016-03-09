@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"> 
+<title>Rohwer</title>
+
+<!-- jQuery library -->
+<script src="http://risingabove.cast.uark.edu/assets/libraries/jq/jquery-2.1.1.min.js"></script>
+
+<!-- jQuery-UI Library - custom -->
+<script src="http://risingabove.cast.uark.edu/assets/libraries/jq-ui/jquery-ui.min.js"></script>
+<link href="http://risingabove.cast.uark.edu/assets/libraries/jq-ui/jquery-ui.structure.min.css" rel="stylesheet">
+<link href="http://risingabove.cast.uark.edu/assets/libraries/jq-ui/jquery-ui.min.css" rel="stylesheet">
+
+<!-- Boostrap libraries -->
+<script src="http://risingabove.cast.uark.edu/assets/libraries/bs/js/bootstrap.min.js"></script>
+<link href="http://risingabove.cast.uark.edu/assets/libraries/bs/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Lightbox Libraries -->
+<script src="http://risingabove.cast.uark.edu/assets/libraries/lightbox/js/lightbox.min.js"></script>
+<link href="http://risingabove.cast.uark.edu/assets/libraries/lightbox/css/lightbox.css" rel="stylesheet">
+
+<!-- OpenLayers Libraries -->
+<script src="http://risingabove.cast.uark.edu/assets/libraries/openlayers/build/ol.js"></script>
+<link href="http://risingabove.cast.uark.edu/assets/libraries/openlayers/css/ol.css" rel="stylesheet">
+
+<!-- Chosen Select Input Libraries -->
+<script src="http://risingabove.cast.uark.edu/assets/libraries/chosen/chosen.jquery.min.js"></script>
+<link href="http://risingabove.cast.uark.edu/assets/libraries/chosen/chosen.min.css" rel="stylesheet">
+
+<!-- External Fonts -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+
+<!-- nouislider -->
+<script src="http://risingabove.cast.uark.edu/assets/libraries/nouislider/nouislider.min.js"></script>
+<link href="http://risingabove.cast.uark.edu/assets/libraries/nouislider/nouislider.min.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<!-- view specific scripts -->
+
+<style>
+.navbar-default{
+	background-color:rgba(40,47,57,0.3);
+	color:#F0FFFF;
+	border:none;
+	margin-bottom:0px;
+	font-size:10pt;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
+	/*background-color: #272F38;
+	color:white;*/
+}
+
+.navbar-default .navbar-nav>li>a, .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover{
+	color:white;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    /*background-color: #272F38;*/
+    color: #F0FFFF;
+}
+
+.open-sans {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.arial {
+	font-family: 'Arial';
+}
+
+.cast-url{
+	color:#A7A7A7;
+}
+
+.header-logo{
+	max-height:40px;
+}
+.navbar-brand{
+	padding-top:5px;
+	text-align:middle;
+}
+
+/*database dropdown menu*/
+#dropdown-database{
+	height:auto;
+	background-color:#272F38;
+	position:absolute;
+	z-index:999;
+	border-top:1px solid gray;
+	width:100%;
+}
+.navbar-mine{
+	background-color: #272F38;
+	border-radius:0px;
+	min-height:30px;
+}
+.navbar-mine .navbar-nav>.active>a, .navbar-mine .navbar-nav>.active>a:hover, .navbar-mine .navbar-nav>.active>a:focus {
+	background-color: #556271;
+	color:white;
+}
+
+.navbar-mine .navbar-nav > li > a:hover, .navbar-mine .navbar-nav > li > a:focus {
+    background-color: #556271;
+    color: #F0FFFF;
+}
+
+.navbar-mine-collapse>ul>li>a{
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+/*end database dropdown menu styles*/
+
+/*start search box styles*/
+.dropdown-search{
+	height:auto;
+	width:100%;
+	background-color:#272F38;
+	position:absolute;
+	z-index:999;
+	padding:15px 0px 15px 0px;
+	border-top:1px solid gray;
+}
+
+.my-search-box{
+	padding:5px 0px 5px 0px;
+	background-color: #272F38;
+	border:none;
+	font-size:25px;
+	color:white;
+	font-style:italic;
+	width:100%;
+}
+.my-search-box:focus{
+	outline: none !important;
+    border:none;
+    /*box-shadow: 0 0 10px gray;*/
+}
+#close-search{
+	color:white;
+	font-size:20px;
+	cursor:pointer;
+}
+#search-glass{
+	cursor:pointer;
+}
+
+/*end search box styles*/
+
+/*begin filter area styles*/
+.dropdown-filter{
+	height:auto;
+	width:100%;
+	background-color:#272F38;
+	position:absolute;
+	z-index:999;
+	padding:25px 0px 25px 0px;
+	border-top:1px solid gray;
+}
+#close-filter{
+	color:white;
+	font-size:25px;
+	cursor:pointer;
+}
+.chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+	height:32px;
+	padding:none;
+}
+#filter-flash{
+	cursor:pointer;
+}
+/*end filter area styles*/
+
+.footer {
+	background-color:#272F38;
+	color:white;
+	padding:20px 20px 20px 20px;
+	top:500px;
+}
+
+/*logo bar area for database views*/
+.database-logo-bar{
+    padding-top:15px;
+    vertical-align: middle;
+    float: none;
+    visibility:hidden;
+    position:absolute;
+}
+.db-institution-logo{
+	max-height:30px;
+}
+/*end db-logo bar area*/
+</style>
+
+</head>
+
+<body style="background-color:#f5f5ec;">
+
+<div class="container-fluid"> <!-- ends in footer -->
+
+
+<div id="main-navbar" class="navbar navbar-default navbar-fixed-top arial" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://risingabove.cast.uark.edu/home"><img class="header-logo" src="http://risingabove.cast.uark.edu/assets/images/logos/Lotus_flat_w_gray_outline.png" /> RISING ABOVE<small class="cast-url"></small></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="main-buttons"><a href="http://risingabove.cast.uark.edu/home">HOME</a></li>
+        <!-- <li class="main-buttons" id="database-dropdown"><a>ARCHIVE</a></li> -->
+        <li class="main-buttons"><a href="http://risingabove.cast.uark.edu/home/main">ARCHIVE</a></li>
+        <li class="main-buttons"><a href="" id="visualization-toggle" data-toggle="modal" data-target="#visualization-modal">VISUALIZATIONS</a></li>
+        <li class="main-buttons"><a href="" id="timeline-toggle" data-toggle="modal" data-target="#timeline-modal">TIMELINE</a></li>
+        <li class="main-buttons"><a href="http://risingabove.cast.uark.edu/home/about">ABOUT</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+
+<!-- database dropdown menu -->
+<div class="row">
+	<div class="dropdown-database open-sans" id="dropdown-database">
+
+		<div class="navbar navbar-default navbar-mine" role="navigation">
+	      <div class="container">
+	      	<div class="row">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse1">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          
+	        </div>
+	        <div class="navbar-collapse collapse navbar-collapse1 navbar-mine-collapse">
+	          <ul class="nav navbar-nav">
+	            <!-- <li class="data-buttons "><a href="http://risingabove.cast.uark.edu/home/main/all" class="">All</a></li> -->
+	            <li class="data-buttons "><a href="http://risingabove.cast.uark.edu/home/main/autobiographies">Autobiographies</a></li>
+	            <li class="data-buttons "><a href="http://risingabove.cast.uark.edu/home/main/letters">Correspondences</a></li>
+	            <li class="data-buttons "><a href="http://risingabove.cast.uark.edu/home/main/objects">Objects</a></li>
+	            <li class="data-buttons "><a href="http://risingabove.cast.uark.edu/home/main/painting_photos">Paintings</a></li>
+	            <li class="data-buttons "><a href="http://risingabove.cast.uark.edu/home/main/photos">Photos</a></li>
+	            <li class="data-buttons "><a href="http://risingabove.cast.uark.edu/home/main/publications">Publications</a></li>
+	            <li class="data-buttons "><a href="http://risingabove.cast.uark.edu/home/main/yearbooks">Yearbooks</a></li>
+	            <li class="data-buttons "><a href="http://risingabove.cast.uark.edu/home/main/miscellaneous">Miscellaneous</a></li>
+	          </ul>
+	          <ul class="nav navbar-nav navbar-right">
+	          	<li id="search-glass" class=""><a><span class="glyphicon glyphicon-search"></span></a></li>
+	          </ul>
+	          	        </div><!--/.nav-collapse -->
+	      	</div>
+	      </div>
+	    </div>
+
+	</div>
+</div>
+<!-- end database dropdown -->
+
+<div class="row">
+    <div class="container">
+        <div class="row database-logo-bar text-center">
+            
+
+             <div class="col-sm-2">
+                <img class="img img-responsive db-institution-logo center-block asu" src="http://risingabove.cast.uark.edu/assets/images/logos/asu.png" />
+            </div>
+            <div class="col-sm-2">
+                <img class="img img-responsive db-institution-logo center-block" src="http://risingabove.cast.uark.edu/assets/images/logos/uofa.png" />
+            </div>
+            <div class="col-sm-2">
+                <img class="img img-responsive db-institution-logo center-block" style="padding-top:5px;" src="http://risingabove.cast.uark.edu/assets/images/logos/cast.png" />
+            </div>
+            <div class="col-sm-2">
+                <img class="img img-responsive db-institution-logo center-block" src="http://risingabove.cast.uark.edu/assets/images/logos/uofa_new_400.png" />
+            </div>
+            <div class="col-sm-2">
+                <img class="img img-responsive db-institution-logo center-block" src="http://risingabove.cast.uark.edu/assets/images/logos/nps.png" />
+            </div>
+            <div class="col-sm-2">
+                <img class="img img-responsive db-institution-logo center-block" src="http://risingabove.cast.uark.edu/assets/images/logos/butler.png" />
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- start search area -->
+<div class="row">
+	<div class="dropdown-search">
+		<div class="container">
+
+			<div class="col-sm-10">
+			<form action="http://risingabove.cast.uark.edu/home/main" method="post" accept-charset="utf-8">				<input type="text" class="my-search-box" name="search" placeholder="Search..." value="" />
+				<!-- <span class="input-group-btn">
+					<input class="btn btn-default" type="submit" name="submit" value="Search"/>
+				</span> -->
+
+			</div>
+			</form>			<div class="pull-right">
+				<span id="close-search" class="glyphicon glyphicon-remove"></span>
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- end serach area -->
+
+<!-- start filter area -->
+<div class="row">
+	<div id="filter-area" class="dropdown-filter">
+		<div class="container">
+			<form action="http://risingabove.cast.uark.edu/home/main" method="post" accept-charset="utf-8">			<div class="row">
+				<div class="col-sm-10">
+					<div class="col-sm-6">
+						<select id="collection" name="collection[]" data-placeholder="Choose a collection..." class="chosen-select" style="width:100%;" multiple ></select>
+					</div>
+
+					<div class="col-sm-6">
+						<select id="category1" name="category[]" data-placeholder="Choose a category..." class="chosen-select" style="width:100%;" multiple ></select>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<div class="col-sm-6">
+						<input class="btn btn-default pull-right" type="submit" name="filter" value="Update"/>
+					</div>
+					<div class="col-sm-6">
+						<span id="close-filter" class="glyphicon glyphicon-remove pull-right"></span>
+					</div>
+				</div>
+			</div><br>
+			<!-- <div class="row">
+				<div class="col-sm-5">
+					<div class="col-sm-6">
+						<select id="from_date" name="from_date" data-placeholder="Choose a collection..." class="form-control" style="width:100%;"></select>
+					</div>
+
+					<div class="col-sm-6">
+						<select id="to_date" name="to_date" data-placeholder="Choose a category..." class="form-control" style="width:100%;"></select>
+					</div>
+				</div>
+			</div> -->
+			</form>		</div>
+	</div>
+</div>
+<!-- end filter area -->
+
+<!-- modal(s) area -->
+
+
+<div class="modal fade" id="visualization-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width:600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">VISUALIZATIONS</h4>
+      </div>
+      <div class="modal-body">
+      	<div class="row">
+        <div class="col-sm-6 model-link-container maps-modal" style="border-right:2px solid gray;cursor:pointer;">
+            <div class="col-sm-3 modal-icons" style="font-size:50px;">
+                <span class="glyphicon glyphicon-globe"></span>
+            </div>
+            <div class="col-sm-9">
+                <h2 style="margin-top:1px;">Maps</h2>
+                <p>Work your way through our data collection using filters to limit your data set.</p>
+            </div>
+        </div>
+        <div class="col-sm-6 model-link-container 3d-modal" style="cursor:pointer;">
+            <div class="col-sm-3" style="font-size:50px;padding-right:1px;">
+                <img src="http://risingabove.cast.uark.edu/assets/images/home-images/unity-icon.jpg" class="img-responsive" style="max-height:50px" />
+            </div>
+            <div class="col-sm-9">
+                <h2 style="margin-top:1px;">3D Data</h2>
+                <p>View 3D data and interact with the camps using Unity.</p>
+            </div>
+        </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="timeline-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">TIMELINE</h4>
+      </div>
+      <div class="modal-body">
+        	TIMELINE: Coming Soon...<br><br>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- end modal(s) area -->
+
+
+<script>
+
+
+$('.dropdown-search').hide();
+$('#dropdown-database').hide();
+$(document).ready(function(){
+	// global vars
+	var urlString = "";
+
+	// various functions
+	function getSearchTop(){
+		if(!$('#dropdown-database').is(':hidden')){
+			var navBottom = $('#main-navbar').height();
+			var dataNavBtm = $('#dropdown-database').height() + navBottom;
+			return dataNavBtm;
+		} else {
+			return $('#main-navbar').height();
+		}
+	}
+
+
+	function getNewCategories(cols)
+	{
+		$.ajax({
+			type: "POST",
+			url: "http://risingabove.cast.uark.edu/home/getCategories",
+			data: {cols: JSON.stringify(cols), type: type},
+			error: function (jqXHR, status, err){
+				console.log("Error " + err + " " + status + " " + JSON.stringify(jqXHR));
+			},
+			success: function (data, status, jqXHR){
+				console.log(jqXHR.responseText);
+				var obj = $.parseJSON(data);
+				var arr = $('#category1').chosen().val();
+				$('#category1').empty();
+				for(var key in obj.cat){
+					var selected = ($.inArray(key,arr) > -1 ? true : false);
+					$('#category1').append($("<option></option>")
+						.attr("value",key)
+						.attr("selected", selected)
+						.text(obj.cat[key]));
+				}
+				$('#category1').trigger('chosen:updated');
+			}
+		});
+	}
+	
+	function getInitialFilters(type, collections){
+		var json = {"data":{
+			'type':type,
+			'collection':collections,
+		}};
+		$.ajax({
+			type: "POST",
+			url: "http://risingabove.cast.uark.edu/home/getFilters",
+			data: json,
+			error: function (jqXHR, status, err){
+				console.log("Error " + err + " " + status + " " + JSON.stringify(jqXHR));
+			},
+			success: function(data,status,jqXHR){
+				var obj = $.parseJSON(data);
+				var tempCols = '["0"]';
+				var tempCats = '["0"]';
+				var exisCols = JSON.parse(tempCols);
+				var exisCats = JSON.parse(tempCats);
+				console.log(exisCols);
+				for(var key in obj.col){
+					if($.inArray(key,exisCols) > -1){
+						var selected = true;
+					} else {
+						var selected = false;
+					}
+					$('#collection').append($("<option></option>")
+						.attr("value",key)
+						.attr("selected", selected)
+						.text(obj.col[key]));
+				};
+				$('#collection').trigger('chosen:updated');
+
+				for(var key in obj.cat){
+					if($.inArray(key,exisCats) > -1){
+						var selected = true;
+					} else {
+						var selected = false;
+					}
+					$('#category1').append($("<option></option>")
+						.attr("value",key)
+						.attr("selected", selected)
+						.text(obj.cat[key]));
+				};
+				$('#category1').trigger('chosen:updated');
+			}
+		});
+
+	}
+
+	// window listener functions
+	$(window).scroll(function(){
+		scrollPosition = $(this).scrollTop();
+		if(scrollPosition >= 200){
+			$('.navbar-default').css('background-color','#272F38');
+		} else {
+			if(urlString != 'db_container' && urlString != 'about' && urlString != 'main' && urlString != 'database' && urlString != 'unity_data'){
+				$('.navbar-default').css('background-color','rgba(40,47,57,0.3)');
+			} 
+		}
+		if(scrollPosition >= 0){
+			var mainBarHeight = $('#main-navbar').height() + scrollPosition;
+			$('#dropdown-database').css('top', mainBarHeight);
+			$('.dropdown-search').css('top', getSearchTop() + scrollPosition);
+			$('#filter-area').css('top', mainBarHeight + $("#dropdown-database").height());
+		}
+	});
+
+	// database dropdown behavior and click events
+	var mainBarHeight = $('#main-navbar').height();
+	$('#dropdown-database').css('top', mainBarHeight);
+
+	var database = $('#database-dropdown');
+	database.hover(function(){
+		database.css('cursor','pointer');
+	})
+	database.click(function(){
+		$('#dropdown-database').slideToggle(500);
+	});
+	// end database dropdown behavior
+
+	//search behavior
+	$('.dropdown-search').css('top', getSearchTop());
+	var mag = $('#search-glass');
+	mag.click(function(){
+		var searchTop = getSearchTop() + $(window).scrollTop();
+		// $('#search-glass').toggleClass('active');
+		$('.dropdown-search').css('top', searchTop);
+		$('.dropdown-search').slideToggle(500);
+		$('.dropdown-filter').slideUp(500);
+	});
+	$('#close-search').click(function(){
+		$('.dropdown-search').slideUp(500);
+		// $('#search-glass').toggleClass('active');
+	});
+	$('#close-filter').click(function(){
+		$('.dropdown-filter').slideUp(500);
+	});
+	// end search behavior
+
+	// if one database, then do other behaviors
+
+	if(urlString == 'main' || urlString == 'database' || urlString == 'db_container'){
+		var filterArea = $('#filter-area');
+		var mainBar = $('#main-navbar');
+		var subBar = $('#dropdown-database');
+		var databaseLogoBar = $('.database-logo-bar');
+		databaseLogoBar.css('position', 'relative');
+		databaseLogoBar.css('visibility', 'visible');
+		mainBar.css('background-color', '#272F38');
+		subBar.show();
+		$('body').css('padding-top', mainBar.height() + subBar.height());
+
+		// any filters set?
+		var catsCols = parseInt("0");
+		if(catsCols > 0){
+			$('.dropdown-filter').show().delay(1200).slideUp(500);
+			$('#filter-notice').prepend('Active ');
+		}
+
+		// set up all filters
+		$(".chosen-select").chosen();
+		$("#collection").chosen().change(function(){
+			var arr = [];
+			$("#collection :selected").each(function(i, selected){
+				// console.log($(selected).attr('value'));
+				arr.push($(selected).attr('value'));
+			});
+			getNewCategories(arr);
+		});
+		var type = "all";
+
+		// get all filters
+		getInitialFilters(type, 'all');
+
+		var filter = $('#filter-flash');
+
+		filter.click(function(){
+			var dataNavBtm = $('#dropdown-database').height() + mainBar.height() + $(window).scrollTop();
+			$('.dropdown-filter').css('top', dataNavBtm);
+			$('.dropdown-filter').slideToggle(500);
+			$('.dropdown-search').slideUp(500);
+		});
+
+	} else if(urlString == 'about'){
+		$('.dropdown-filter').hide();
+		var mainBar = $('#main-navbar');
+		mainBar.css('background-color', '#272F38');
+	}
+$('.dropdown-filter').hide();
+// end database scripts
+});
+
+// modal activity
+$(document).ready(function(){
+	$('.visualizations').click(function(){
+		$('#visualization-modal').modal('show');
+	});
+	$('.timeline').click(function(){
+		$('#timeline-modal').modal('show');
+	});
+	var mapsUrl = "http://risingabove.cast.uark.edu/home/openlayers";
+	$('.maps-modal').click(function(){
+		window.location.href=mapsUrl;
+	});
+	var threeUrl = "http://risingabove.cast.uark.edu/home/unity_data";
+	$('.3d-modal').click(function(){
+		window.location.href=threeUrl;
+	});
+})
+
+</script>
+<style>
+/*Slide carousel styles*/
+.slide1, .slide2, .slide3, .slide4 {
+    min-height: 500px;
+    background-size: cover;
+    background-position: center center;
+}
+.slide1 {
+    background-image: url(http://risingabove.cast.uark.edu/assets/images/slider/option5.png);
+}
+.slide2 {
+    background-image: url(http://risingabove.cast.uark.edu/assets/images/slider/optiona3.png);
+}
+.slide3 {
+    background-image: url(http://risingabove.cast.uark.edu/assets/images/slider/optiona2.png);
+}
+.slide4 {
+    background-image: url(http://risingabove.cast.uark.edu/assets/images/slider/optiona1.png);
+}
+/* Carousel Fade Effect */
+.carousel.carousel-fade .item {
+    -webkit-transition: opacity 1s linear;
+    -moz-transition: opacity 1s linear;
+    -ms-transition: opacity 1s linear;
+    -o-transition: opacity 1s linear;
+    transition: opacity 1s linear;
+    opacity: .5;
+}
+.carousel.carousel-fade .active.item {
+    opacity: 1;
+}
+.carousel.carousel-fade .active.left,
+.carousel.carousel-fade .active.right {
+    left: 0;
+    z-index: 2;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+.carousel-overlay {
+    position: absolute;
+    top: 20%;
+    right: 0;
+    left: 0;
+    opacity:1;
+    z-index:3;
+}
+
+.text-center {
+    color:#F7F7F7;
+}
+
+.slider-title {
+    font-size:40pt;
+    font-weight:bold;
+    letter-spacing: 4px;
+}
+.lead {
+    letter-spacing: 5px;
+}
+
+.logo-big {
+    max-height:200px;
+}
+
+/*end slide carousel styles*/
+
+.logo-bar {
+    padding:10px 0px 10px 0px;
+    vertical-align: middle;
+    float: none;
+}
+
+.institution-logo{
+    min-height:30px;
+    max-height:85px;
+}
+
+.asu{
+    max-height:75px;
+}
+
+.description {
+    color:white;
+    font-size:14pt;
+    letter-spacing:1px;
+}
+
+.description-div{
+    padding:40px 20px 40px 20px;
+}
+
+.blue-bar {
+    background-color:#556271;
+}
+
+.home-icons>span {
+    font-size:60px;
+    margin-top:20px;
+}
+
+.home-icons>h2{
+    font-family: "Open Sans", sans-serif;
+    font-weight:600;
+}
+
+.home-icons>p{
+    color:#959595;
+    font-family: "Open Sans", sans-serif;
+    font-weight:400;
+}
+.icon-rotate{
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    transform: rotate(270deg);
+}
+.gray-row {
+    background-color:#D7D7D7;
+    padding:40px 20px 40px 20px;
+}
+.icon-row{
+    padding:10px 10px 10px 10px;
+}
+
+.more-info {
+    color:black;
+    font-size:12pt;
+}
+.more-info-div {
+    
+}
+.link-container {
+    cursor:pointer;
+}
+</style>
+
+<div class="row" style="background-color:#272F38;">
+    <!--begin bg-carousel-->
+    <div id="bg-fade-carousel" class="carousel slide carousel-fade" data-ride="carousel">
+    <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <div class="slide1"></div>
+            </div>
+            <div class="item">
+                <div class="slide2"></div>
+            </div>
+            <div class="item">
+                <div class="slide3"></div>
+            </div>
+            <div class="item">
+                <div class="slide4"></div>
+            </div>
+        </div><!-- .carousel-inner --> 
+        <div class="container carousel-overlay text-center open-sans">
+            <img class="img img-responsive logo-big center-block" src="http://risingabove.cast.uark.edu/assets/images/logos/Lotus_flat_w_gray_outline.png" />
+            <span class="slider-title">ROHWER RECONSTRUCTED</span>
+            <p class="lead">INTERPRETING PLACE THROUGH EXPERIENCE</p>
+            <!-- <a class="btn btn-lg btn-success fp-buttons" href="#">
+                <span class="fa fa-dollar"></span> Get Pricing
+            </a>
+            <a class="btn btn-lg btn-success fp-buttons" href="#">
+                <span class="fa fa-check"></span> Sign Up
+            </a> -->
+        </div>
+    </div><!-- .carousel --> 
+</div>
+<div class="row">
+    <div class="container">
+        <div class="row logo-bar text-center">
+            <div class="col-sm-2">
+                <img class="img img-responsive institution-logo center-block asu" src="http://risingabove.cast.uark.edu/assets/images/logos/asu.png" />
+            </div>
+            <div class="col-sm-2">
+                <img class="img img-responsive institution-logo center-block" src="http://risingabove.cast.uark.edu/assets/images/logos/uofa.png" />
+            </div>
+            <div class="col-sm-2">
+                <img class="img img-responsive institution-logo center-block" style="padding-top:15px;" src="http://risingabove.cast.uark.edu/assets/images/logos/cast.png" />
+            </div>
+            <div class="col-sm-2">
+                <img class="img img-responsive institution-logo center-block" src="http://risingabove.cast.uark.edu/assets/images/logos/uofa_new_400.png" />
+            </div>
+            <div class="col-sm-2">
+                <img class="img img-responsive institution-logo center-block" src="http://risingabove.cast.uark.edu/assets/images/logos/nps.png" />
+            </div>
+            <div class="col-sm-2">
+                <img class="img img-responsive institution-logo center-block" src="http://risingabove.cast.uark.edu/assets/images/logos/butler.png" />
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="row blue-bar">
+    <div class="container">
+        <div class="text-center description-div">
+            <span class="description open-sans">
+                <!-- The Rohwer War Relocation Center was a World War II Japanese American internment camp located in rural southeastern Arkansas, in Desha County. It was in operation from September 18, 1942 until November 30, 1945, and held as many as 8,475 Japanese Americans forcibly evacuated from California. The Rohwer War Relocation Center Cemetery is located here, and was declared a National Historic Landmark in 1992. -->
+                For over three years, approximately 8,500 Japanese-Americans were interned in a camp built on the muddy flatlands of southeast Arkansas. Their lives and stories are inextricably interwoven with this place and its people in a narrative that encompasses injustice, prejudice, anger, and fear, but also hope, compassion, and courage. This is the story of Rohwer and a celebration of the people who chose - like the lotus - to rise with grace and beauty above the circumstances that forced them here.
+            </span>
+        </div>
+    </div>
+</div>
+<div class="row icon-row">
+    <div class="container">
+        <div class="col-sm-4 link-container archive">
+            <div class="col-sm-3 home-icons">
+                <span class="glyphicon glyphicon-th"></span>
+            </div>
+            <div class="col-sm-9 home-icons">
+                <h2>Archive</h2>
+                <p>Work your way through our data colelction using filters to limit your data set.</p>
+            </div>
+        </div>
+        <div class="col-sm-4 link-container timeline">
+            <div class="col-sm-3 home-icons">
+                <span class="glyphicon glyphicon-indent-left icon-rotate"></span>
+            </div>
+            <div class="col-sm-9 home-icons">
+                <h2>Timeline</h2>
+                <p>Work your way through our data colelction using filters to limit your data set.</p>
+            </div>
+        </div>
+        <div class="col-sm-4 link-container visualizations">
+            <div class="col-sm-3 home-icons">
+                <span class="glyphicon glyphicon-picture"></span>
+            </div>
+            <div class="col-sm-9 home-icons">
+                <h2>Visualizations</h2>
+                <p>Work your way through our data colelction using filters to limit your data set.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row gray-row">
+    <div class="container">
+        <div class="col-sm-4">
+            <img src="http://risingabove.cast.uark.edu/assets/images/home-images/group_photo.jpg" class="img img-thumbnail" />
+        </div>
+        <div class="col-sm-8 more-info-div">
+            <span class="more-info open-sans">
+                <!-- War hysteria, racial prejudice, and failure of political leadership led to the forced removal of 120,000 Japanese Americans from the West Coast following the 1941 attack on Pearl Harbor.  One third of those removed were foreign-born Issei.  Many Issei were more than 50 years old and prohibited from becoming American citizens. The remaining two-thirds were American born citizens Nisei.  Most Nisei were under 21 years old.  These Americans left their entire lives behind, including possessions, homes, businesses, and communities and were imprisoned in 10 relocation camps across the United States, including Rohwer and Jerome (south of Rohwer) in Desha County, Arkansas. -->
+                One of ten Japanese-American internment camps established during World War II, the Rohwer Relocation Center in rural Desha County, Arkansas opened on September 18, 1942. At the time of its closure on November 30, 1945, the camp had been home - at one time or another - to 11,926 Japanese-Americans forcibly removed from their homes on the West Coast. Just as their three years of internment left an indelible mark on the landscape of their lives, so they altered the place called Rohwer, both figuratively and literally. Remnants and ruins of the camp still scatter the fields planted in cotton and soybeans, and the Memorial Cemetery, declared a National Historic Monument in 1992, is a somber reminder of the people who lived and worked here. Interpretive panels constructed at the site in 2013 tell the abridged history of the camp, but are by necessity too brief to articulate the immensity of the full narrative. The documents, maps, and visualizations presented here are fragments of that narrative, pieced together in a technological framework, in an effort to bring the story to life.
+            </span>
+        </div> 
+    </div>
+</div>
+
+<script>
+$(document).ready(function(){
+    $('.archive').click(function(){
+        window.location.href="http://risingabove.cast.uark.edu/home/main/autobiographies";
+    })
+})
+
+
+</script>
+<style>
+
+
+</style>
+</div>
+<div class="container-fluid">
+<div class="row footer open-sans">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<h2>Funding</h2>
+					<img style="max-height:100px;float:left;padding-right:10px;padding-bottom:5px;" class="img img-responsive logo-big center-block" src="http://risingabove.cast.uark.edu/assets/images/logos/Logo_NoText_md_semi-white.png" />
+				<p>
+					<!-- The information displayed on this website was created from a collaborative effort between the Center for Advanced Spatial Technologies, University of Arknsas and Arkansas State University with funding provided by a grant from the National Parks Service. -->
+					This project was funded, in part, by a grant from the U.S. Department of the Interior, National Park Service, Japanese American Confinement Sites Grant Program. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the U.S. Department of the Interior.
+				</p>
+
+			</div>
+			<div class="col-md-4">
+				<img class="img img-responsive center-block" src="http://risingabove.cast.uark.edu/assets/images/logos/cast-footer.png" />
+			</div>
+			<div class="col-md-4">
+				<h2>Related</h2>
+				<ul style="margin:0px;padding:0px;padding-left:20px;">
+					<li>Rohwer Heritage Site</li><br>
+					<li>Butler Center Collection</li><br>
+					<li>National Parks Service</li><br>
+					<li>WWII Japanese - American Internment Museum</li>
+				</ul>
+				
+			</div>
+			
+		</div>
+	</div>
+
+</div>
+
+</div> <!-- container fluid end from header -->
+</body>
+</html>

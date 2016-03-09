@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"> 
+<title>Rohwer</title>
+
+<!-- jQuery library -->
+<script src="http://risingabove.cast.uark.edu/assets/libraries/jq/jquery-2.1.1.min.js"></script>
+
+<!-- jQuery-UI Library - custom -->
+<script src="http://risingabove.cast.uark.edu/assets/libraries/jq-ui/jquery-ui.min.js"></script>
+<link href="http://risingabove.cast.uark.edu/assets/libraries/jq-ui/jquery-ui.structure.min.css" rel="stylesheet">
+<link href="http://risingabove.cast.uark.edu/assets/libraries/jq-ui/jquery-ui.min.css" rel="stylesheet">
+
+<!-- Boostrap libraries -->
+<script src="http://risingabove.cast.uark.edu/assets/libraries/bs/js/bootstrap.min.js"></script>
+<link href="http://risingabove.cast.uark.edu/assets/libraries/bs/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Lightbox Libraries -->
+<script src="http://risingabove.cast.uark.edu/assets/libraries/lightbox/js/lightbox.min.js"></script>
+<link href="http://risingabove.cast.uark.edu/assets/libraries/lightbox/css/lightbox.css" rel="stylesheet">
+
+<!-- OpenLayers Libraries -->
+<script src="http://risingabove.cast.uark.edu/assets/libraries/openlayers/build/ol.js"></script>
+<link href="http://risingabove.cast.uark.edu/assets/libraries/openlayers/css/ol.css" rel="stylesheet">
+
+<!-- Chosen Select Input Libraries -->
+<script src="http://risingabove.cast.uark.edu/assets/libraries/chosen/chosen.jquery.min.js"></script>
+<link href="http://risingabove.cast.uark.edu/assets/libraries/chosen/chosen.min.css" rel="stylesheet">
+
+<!-- External Fonts -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+
+<!-- nouislider -->
+<script src="http://risingabove.cast.uark.edu/assets/libraries/nouislider/nouislider.min.js"></script>
+<link href="http://risingabove.cast.uark.edu/assets/libraries/nouislider/nouislider.min.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<!-- view specific scripts -->
+
+<style>
+.navbar-default{
+	background-color:rgba(40,47,57,0.3);
+	color:#F0FFFF;
+	border:none;
+	margin-bottom:0px;
+	font-size:10pt;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
+	/*background-color: #272F38;
+	color:white;*/
+}
+
+.navbar-default .navbar-nav>li>a, .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover{
+	color:white;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    /*background-color: #272F38;*/
+    color: #F0FFFF;
+}
+
+.open-sans {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.arial {
+	font-family: 'Arial';
+}
+
+.cast-url{
+	color:#A7A7A7;
+}
+
+.header-logo{
+	max-height:40px;
+}
+.navbar-brand{
+	padding-top:5px;
+	text-align:middle;
+}
+
+/*database dropdown menu*/
+#dropdown-database{
+	height:auto;
+	background-color:#272F38;
+	position:absolute;
+	z-index:999;
+	border-top:1px solid gray;
+	width:100%;
+}
+.navbar-mine{
+	background-color: #272F38;
+	border-radius:0px;
+	min-height:30px;
+}
+.navbar-mine .navbar-nav>.active>a, .navbar-mine .navbar-nav>.active>a:hover, .navbar-mine .navbar-nav>.active>a:focus {
+	background-color: #556271;
+	color:white;
+}
+
+.navbar-mine .navbar-nav > li > a:hover, .navbar-mine .navbar-nav > li > a:focus {
+    background-color: #556271;
+    color: #F0FFFF;
+}
+
+.navbar-mine-collapse>ul>li>a{
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+/*end database dropdown menu styles*/
+
+/*start search box styles*/
+.dropdown-search{
+	height:auto;
+	width:100%;
+	background-color:#272F38;
+	position:absolute;
+	z-index:999;
+	padding:15px 0px 15px 0px;
+	border-top:1px solid gray;
+}
+
+.my-search-box{
+	padding:5px 0px 5px 0px;
+	background-color: #272F38;
+	border:none;
+	font-size:25px;
+	color:white;
+	font-style:italic;
+	width:100%;
+}
+.my-search-box:focus{
+	outline: none !important;
+    border:none;
+    /*box-shadow: 0 0 10px gray;*/
+}
+#close-search{
+	color:white;
+	font-size:20px;
+	cursor:pointer;
+}
+#search-glass{
+	cursor:pointer;
+}
+
+/*end search box styles*/
+
+/*begin filter area styles*/
+.dropdown-filter{
+	height:auto;
+	width:100%;
+	background-color:#272F38;
+	position:absolute;
+	z-index:999;
+	padding:25px 0px 25px 0px;
+	border-top:1px solid gray;
+}
+#close-filter{
+	color:white;
+	font-size:25px;
+	cursor:pointer;
+}
+.chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+	height:32px;
+	padding:none;
+}
+#filter-flash{
+	cursor:pointer;
+}
+/*end filter area styles*/
+
+.footer {
+	background-color:#272F38;
+	color:white;
+	padding:20px 20px 20px 20px;
+	top:500px;
+}
+
+/*logo bar area for database views*/
+.database-logo-bar{
+    padding-top:15px;
+    vertical-align: middle;
+    float: none;
+    visibility:hidden;
+    position:absolute;
+}
+.db-institution-logo{
+	max-height:30px;
+}
+/*end db-logo bar area*/
+</style>
+
+</head>
+
+<body style="background-color:#f5f5ec;">
+
+<div class="container-fluid"> <!-- ends in footer -->
+
+
+<div id="main-navbar" class="navbar navbar-default navbar-fixed-top arial" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://risingabove.cast.uark.edu/home"><img class="header-logo" src="http://risingabove.cast.uark.edu/assets/images/logos/Lotus_flat_w_gray_outline.png" /> RISING ABOVE<small class="cast-url"></small></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="main-buttons"><a href="http://risingabove.cast.uark.edu/home">HOME</a></li>
+        <!-- <li class="main-buttons" id="database-dropdown"><a>ARCHIVE</a></li> -->
+        <li class="main-buttons"><a href="http://risingabove.cast.uark.edu/home/main">ARCHIVE</a></li>
+        <li class="main-buttons"><a href="" id="visualization-toggle" data-toggle="modal" data-target="#visualization-modal">VISUALIZATIONS</a></li>
+        <li class="main-buttons"><a href="" id="timeline-toggle" data-toggle="modal" data-target="#timeline-modal">TIMELINE</a></li>
+        <li class="main-buttons"><a href="http://risingabove.cast.uark.edu/home/about">ABOUT</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+
+<!-- database dropdown menu -->
+<div class="row">
+	<div class="dropdown-database open-sans" id="dropdown-database">
+
+		<div class="navbar navbar-default navbar-mine" role="navigation">
+	      <div class="container">
+	      	<div class="row">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse1">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          
+	        </div>
+	        <div class="navbar-collapse collapse navbar-collapse1 navbar-mine-collapse">
+	          <ul class="nav navbar-nav">
+	            <!-- <li class="data-buttons "><a href="http://risingabove.cast.uark.edu/home/main/all" class="">All</a></li> -->
+	            <li class="data-buttons active"><a href="http://risingabove.cast.uark.edu/home/main/autobiographies">Autobiographies</a></li>
+	            <li class="data-buttons "><a href="http://risingabove.cast.uark.edu/home/main/letters">Correspondences</a></li>
+	            <li class="data-buttons "><a href="http://risingabove.cast.uark.edu/home/main/objects">Objects</a></li>
+	            <li class="data-buttons "><a href="http://risingabove.cast.uark.edu/home/main/painting_photos">Paintings</a></li>
+	            <li class="data-buttons "><a href="http://risingabove.cast.uark.edu/home/main/photos">Photos</a></li>
+	            <li class="data-buttons "><a href="http://risingabove.cast.uark.edu/home/main/publications">Publications</a></li>
+	            <li class="data-buttons "><a href="http://risingabove.cast.uark.edu/home/main/yearbooks">Yearbooks</a></li>
+	            <li class="data-buttons "><a href="http://risingabove.cast.uark.edu/home/main/miscellaneous">Miscellaneous</a></li>
+	          </ul>
+	          <ul class="nav navbar-nav navbar-right">
+	          	<li id="search-glass" class=""><a><span class="glyphicon glyphicon-search"></span></a></li>
+	          </ul>
+	          	        </div><!--/.nav-collapse -->
+	      	</div>
+	      </div>
+	    </div>
+
+	</div>
+</div>
+<!-- end database dropdown -->
+
+<div class="row">
+    <div class="container">
+        <div class="row database-logo-bar text-center">
+            
+
+             <div class="col-sm-2">
+                <img class="img img-responsive db-institution-logo center-block asu" src="http://risingabove.cast.uark.edu/assets/images/logos/asu.png" />
+            </div>
+            <div class="col-sm-2">
+                <img class="img img-responsive db-institution-logo center-block" src="http://risingabove.cast.uark.edu/assets/images/logos/uofa.png" />
+            </div>
+            <div class="col-sm-2">
+                <img class="img img-responsive db-institution-logo center-block" style="padding-top:5px;" src="http://risingabove.cast.uark.edu/assets/images/logos/cast.png" />
+            </div>
+            <div class="col-sm-2">
+                <img class="img img-responsive db-institution-logo center-block" src="http://risingabove.cast.uark.edu/assets/images/logos/uofa_new_400.png" />
+            </div>
+            <div class="col-sm-2">
+                <img class="img img-responsive db-institution-logo center-block" src="http://risingabove.cast.uark.edu/assets/images/logos/nps.png" />
+            </div>
+            <div class="col-sm-2">
+                <img class="img img-responsive db-institution-logo center-block" src="http://risingabove.cast.uark.edu/assets/images/logos/butler.png" />
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- start search area -->
+<div class="row">
+	<div class="dropdown-search">
+		<div class="container">
+
+			<div class="col-sm-10">
+			<form action="http://risingabove.cast.uark.edu/home/main" method="post" accept-charset="utf-8">				<input type="text" class="my-search-box" name="search" placeholder="Search..." value="" />
+				<!-- <span class="input-group-btn">
+					<input class="btn btn-default" type="submit" name="submit" value="Search"/>
+				</span> -->
+
+			</div>
+			</form>			<div class="pull-right">
+				<span id="close-search" class="glyphicon glyphicon-remove"></span>
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- end serach area -->
+
+<!-- start filter area -->
+<div class="row">
+	<div id="filter-area" class="dropdown-filter">
+		<div class="container">
+			<form action="http://risingabove.cast.uark.edu/home/main" method="post" accept-charset="utf-8">			<div class="row">
+				<div class="col-sm-10">
+					<div class="col-sm-6">
+						<select id="collection" name="collection[]" data-placeholder="Choose a collection..." class="chosen-select" style="width:100%;" multiple ></select>
+					</div>
+
+					<div class="col-sm-6">
+						<select id="category1" name="category[]" data-placeholder="Choose a category..." class="chosen-select" style="width:100%;" multiple ></select>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<div class="col-sm-6">
+						<input class="btn btn-default pull-right" type="submit" name="filter" value="Update"/>
+					</div>
+					<div class="col-sm-6">
+						<span id="close-filter" class="glyphicon glyphicon-remove pull-right"></span>
+					</div>
+				</div>
+			</div><br>
+			<!-- <div class="row">
+				<div class="col-sm-5">
+					<div class="col-sm-6">
+						<select id="from_date" name="from_date" data-placeholder="Choose a collection..." class="form-control" style="width:100%;"></select>
+					</div>
+
+					<div class="col-sm-6">
+						<select id="to_date" name="to_date" data-placeholder="Choose a category..." class="form-control" style="width:100%;"></select>
+					</div>
+				</div>
+			</div> -->
+			</form>		</div>
+	</div>
+</div>
+<!-- end filter area -->
+
+<!-- modal(s) area -->
+
+
+<div class="modal fade" id="visualization-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width:600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">VISUALIZATIONS</h4>
+      </div>
+      <div class="modal-body">
+      	<div class="row">
+        <div class="col-sm-6 model-link-container maps-modal" style="border-right:2px solid gray;cursor:pointer;">
+            <div class="col-sm-3 modal-icons" style="font-size:50px;">
+                <span class="glyphicon glyphicon-globe"></span>
+            </div>
+            <div class="col-sm-9">
+                <h2 style="margin-top:1px;">Maps</h2>
+                <p>Work your way through our data collection using filters to limit your data set.</p>
+            </div>
+        </div>
+        <div class="col-sm-6 model-link-container 3d-modal" style="cursor:pointer;">
+            <div class="col-sm-3" style="font-size:50px;padding-right:1px;">
+                <img src="http://risingabove.cast.uark.edu/assets/images/home-images/unity-icon.jpg" class="img-responsive" style="max-height:50px" />
+            </div>
+            <div class="col-sm-9">
+                <h2 style="margin-top:1px;">3D Data</h2>
+                <p>View 3D data and interact with the camps using Unity.</p>
+            </div>
+        </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="timeline-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">TIMELINE</h4>
+      </div>
+      <div class="modal-body">
+        	TIMELINE: Coming Soon...<br><br>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- end modal(s) area -->
+
+
+<script>
+
+
+$('.dropdown-search').hide();
+$('#dropdown-database').hide();
+$(document).ready(function(){
+	// global vars
+	var urlString = "database";
+
+	// various functions
+	function getSearchTop(){
+		if(!$('#dropdown-database').is(':hidden')){
+			var navBottom = $('#main-navbar').height();
+			var dataNavBtm = $('#dropdown-database').height() + navBottom;
+			return dataNavBtm;
+		} else {
+			return $('#main-navbar').height();
+		}
+	}
+
+
+	function getNewCategories(cols)
+	{
+		$.ajax({
+			type: "POST",
+			url: "http://risingabove.cast.uark.edu/home/getCategories",
+			data: {cols: JSON.stringify(cols), type: type},
+			error: function (jqXHR, status, err){
+				console.log("Error " + err + " " + status + " " + JSON.stringify(jqXHR));
+			},
+			success: function (data, status, jqXHR){
+				console.log(jqXHR.responseText);
+				var obj = $.parseJSON(data);
+				var arr = $('#category1').chosen().val();
+				$('#category1').empty();
+				for(var key in obj.cat){
+					var selected = ($.inArray(key,arr) > -1 ? true : false);
+					$('#category1').append($("<option></option>")
+						.attr("value",key)
+						.attr("selected", selected)
+						.text(obj.cat[key]));
+				}
+				$('#category1').trigger('chosen:updated');
+			}
+		});
+	}
+	
+	function getInitialFilters(type, collections){
+		var json = {"data":{
+			'type':type,
+			'collection':collections,
+		}};
+		$.ajax({
+			type: "POST",
+			url: "http://risingabove.cast.uark.edu/home/getFilters",
+			data: json,
+			error: function (jqXHR, status, err){
+				console.log("Error " + err + " " + status + " " + JSON.stringify(jqXHR));
+			},
+			success: function(data,status,jqXHR){
+				var obj = $.parseJSON(data);
+				var tempCols = '["0"]';
+				var tempCats = '["0"]';
+				var exisCols = JSON.parse(tempCols);
+				var exisCats = JSON.parse(tempCats);
+				console.log(exisCols);
+				for(var key in obj.col){
+					if($.inArray(key,exisCols) > -1){
+						var selected = true;
+					} else {
+						var selected = false;
+					}
+					$('#collection').append($("<option></option>")
+						.attr("value",key)
+						.attr("selected", selected)
+						.text(obj.col[key]));
+				};
+				$('#collection').trigger('chosen:updated');
+
+				for(var key in obj.cat){
+					if($.inArray(key,exisCats) > -1){
+						var selected = true;
+					} else {
+						var selected = false;
+					}
+					$('#category1').append($("<option></option>")
+						.attr("value",key)
+						.attr("selected", selected)
+						.text(obj.cat[key]));
+				};
+				$('#category1').trigger('chosen:updated');
+			}
+		});
+
+	}
+
+	// window listener functions
+	$(window).scroll(function(){
+		scrollPosition = $(this).scrollTop();
+		if(scrollPosition >= 200){
+			$('.navbar-default').css('background-color','#272F38');
+		} else {
+			if(urlString != 'db_container' && urlString != 'about' && urlString != 'main' && urlString != 'database' && urlString != 'unity_data'){
+				$('.navbar-default').css('background-color','rgba(40,47,57,0.3)');
+			} 
+		}
+		if(scrollPosition >= 0){
+			var mainBarHeight = $('#main-navbar').height() + scrollPosition;
+			$('#dropdown-database').css('top', mainBarHeight);
+			$('.dropdown-search').css('top', getSearchTop() + scrollPosition);
+			$('#filter-area').css('top', mainBarHeight + $("#dropdown-database").height());
+		}
+	});
+
+	// database dropdown behavior and click events
+	var mainBarHeight = $('#main-navbar').height();
+	$('#dropdown-database').css('top', mainBarHeight);
+
+	var database = $('#database-dropdown');
+	database.hover(function(){
+		database.css('cursor','pointer');
+	})
+	database.click(function(){
+		$('#dropdown-database').slideToggle(500);
+	});
+	// end database dropdown behavior
+
+	//search behavior
+	$('.dropdown-search').css('top', getSearchTop());
+	var mag = $('#search-glass');
+	mag.click(function(){
+		var searchTop = getSearchTop() + $(window).scrollTop();
+		// $('#search-glass').toggleClass('active');
+		$('.dropdown-search').css('top', searchTop);
+		$('.dropdown-search').slideToggle(500);
+		$('.dropdown-filter').slideUp(500);
+	});
+	$('#close-search').click(function(){
+		$('.dropdown-search').slideUp(500);
+		// $('#search-glass').toggleClass('active');
+	});
+	$('#close-filter').click(function(){
+		$('.dropdown-filter').slideUp(500);
+	});
+	// end search behavior
+
+	// if one database, then do other behaviors
+
+	if(urlString == 'main' || urlString == 'database' || urlString == 'db_container'){
+		var filterArea = $('#filter-area');
+		var mainBar = $('#main-navbar');
+		var subBar = $('#dropdown-database');
+		var databaseLogoBar = $('.database-logo-bar');
+		databaseLogoBar.css('position', 'relative');
+		databaseLogoBar.css('visibility', 'visible');
+		mainBar.css('background-color', '#272F38');
+		subBar.show();
+		$('body').css('padding-top', mainBar.height() + subBar.height());
+
+		// any filters set?
+		var catsCols = parseInt("0");
+		if(catsCols > 0){
+			$('.dropdown-filter').show().delay(1200).slideUp(500);
+			$('#filter-notice').prepend('Active ');
+		}
+
+		// set up all filters
+		$(".chosen-select").chosen();
+		$("#collection").chosen().change(function(){
+			var arr = [];
+			$("#collection :selected").each(function(i, selected){
+				// console.log($(selected).attr('value'));
+				arr.push($(selected).attr('value'));
+			});
+			getNewCategories(arr);
+		});
+		var type = "all";
+
+		// get all filters
+		getInitialFilters(type, 'all');
+
+		var filter = $('#filter-flash');
+
+		filter.click(function(){
+			var dataNavBtm = $('#dropdown-database').height() + mainBar.height() + $(window).scrollTop();
+			$('.dropdown-filter').css('top', dataNavBtm);
+			$('.dropdown-filter').slideToggle(500);
+			$('.dropdown-search').slideUp(500);
+		});
+
+	} else if(urlString == 'about'){
+		$('.dropdown-filter').hide();
+		var mainBar = $('#main-navbar');
+		mainBar.css('background-color', '#272F38');
+	}
+$('.dropdown-filter').hide();
+// end database scripts
+});
+
+// modal activity
+$(document).ready(function(){
+	$('.visualizations').click(function(){
+		$('#visualization-modal').modal('show');
+	});
+	$('.timeline').click(function(){
+		$('#timeline-modal').modal('show');
+	});
+	var mapsUrl = "http://risingabove.cast.uark.edu/home/openlayers";
+	$('.maps-modal').click(function(){
+		window.location.href=mapsUrl;
+	});
+	var threeUrl = "http://risingabove.cast.uark.edu/home/unity_data";
+	$('.3d-modal').click(function(){
+		window.location.href=threeUrl;
+	});
+})
+
+</script>
+<style>
+.scrollable {
+   border: solid gray 1px;
+   overflow: scroll;
+}
+</style>
+<div class="row" style="padding-top:5px;">
+
+	<div class="col-md-3 scrollable">
+		<h4>Transcription: </h4><hr>Autobiography- Okamura, Alyce<br />
+<br />
+My Autobiography<br />
+<br />
+	I came into this world at five P.M., November 29, 1926, at a little apartment house situated in the southern part of Sacramento City in Sacramento County, California.  It is now known as the capital of California although it is not the largest city in that state.  The Suttor&rsquo;s Fort in Sacramento gives you an idea of how frontiersmen protected themselves in the earlier days.<br />
+	The first three four years of my childhood was spent in that city and then we moved out to a farm.  During that time my little sister came into this life so I had a big sister and a little sister.  This farm was located far from anybody and I played with my older sister or toys, and amused myself with the baby.  I went to town many times with my father when he went on errands.  We had a green old-fashioned car.<br />
+	While my father was farming my mother guided us, showing us the good from bad, how to play with dolls, made our clothes, cooked, and did what every mother would and should do for her children.  Then another baby, a boy this time, was borne in October 3, 1930, at the same place as I.  This made six in the family, three girls, one boy, and two parents.<br />
+	Then two years later we moved to another farm where my second brother and the baby of the family was born.  Previously we had not been going to church because we lived so far from it but we moved to a better surrounding so we started toing to the Christian Church.  My parents are Buhhist (sic)  but (since) we went to Christian Church since it was much closer and mother wanted us to go to any kind of church just as long as we went.  Father raided strawberries, grapes, vegetables, and chickens.  I learned to skate then for we lived near a gravel road.<br />
+	We moved again to another farm close by the center of a little town named Florin.  This time we went to Buddhist Church and I started school when I was seven.  It was a small school where only Japanese children went.  There was another school where the other races went but I heard recently, before the war, that these two schools were combined into one.  There were only Japanese students to talk to so we more or less talked in our native tongue which the teachers had a tough time correcting.  My favorite subjects then were arithmetic, reading, and art although I didn&rsquo;t dislike any particular quarter.<br />
+	Three years later when I was in the high fourth a great blow came on my mother and her children which probably changed our course in life.  Within a week after my father took to bed with pneumonia he passed away.  My mother was working in the city during the last year or so and we were living with our father in the country.  My mother could not manage the farm and she had to work to support five growing children so her immediate right after the funeral was to find a place in the city for us to live in.  One week later we found ourselves in our birth town, where mother was working at a restaurant.  That was in the year 1937.<br />
+	I went to Lincoln School and skipped half a grade because my knowledge in arithmetic was half a year ahead of the rest of the class.  What a difference to associate with other nationalities besides Japanese.  I felt out of place although everybody treated me nice.  We stayed in that city for one year and one month, and moved this time to Stockton, California because of mother&rsquo;s occupation.  Then I really came to know and make friends with people outside my race.  They were all wonderful.  I went to Buddhist Church every Sunday, and I also learned many slang expressions, began to understand how gossip started, and why people avoid gossipers.  Besides going to American school I also went to Japanese school after school hours.<br />
+	Do I have any special talent?  No, so I enjoy listening and seeing other people&rsquo;s talents.  I especially like to see talented artists&rsquo; work.  I was in a Basketball team during the last year I was there and it was a lot of fun besides developing my body.  Clubs were for people older than I, and I didn&rsquo;t go in gangs but I have several good friends.  I love sports, especially basketball, tennis, ping-pong, archery, volleyball, and softball.  I would like to learn how to play hockey and badmington (sic).<br />
+	My favorite studies now are Spanish, Mathematics, Reading, and Business subjects.<br />
+	Collecting stamps and match covers were my hobbies buy at present I do not have any hobby.  Do I like movies?  I used to go almost every Sunday and I wish I could go now.  I love to listen to radios but we haven&rsquo;t got any.  It&rsquo;s such a pleasant way to spend your time.  We had a big one which could be used for phonograph playing too so I miss it more.  Social gathering is not in my line but I do go to socials now and then.  I love reading.  When I was in Stockton I brought home six to fourteen books a week.<br />
+	I used to spend two or three weeks at the city, where mother was rooming, for my vacation when I was in Florin.  During my stay at Stockton I went to Santa Cruz once but the rest of the summers were spent at home reading, playing, or helping around the house.<br />
+	About a year ago when United States went into war I started hearing rumors about evacuation concerning people living near the coast.  We lived close to the coast but I thought it was only for those living in San Francisco, Los Angeles, San Diego, etc. whose cities are located just next to the ocean.  But as weeks went by we were included too.  Now came the problem of what to bring to camp.  Mother was not well because she had been working too hard during the last five years.  She had to face another big responsibility.  April and May were busy months.  Shopping awaited us whenever there was time.  Materials were bought for making clothes and we had to hunt for suitcases.  Besides helping mother get ready I had my studies to do.  Temptations to play with my friends were great but being the second oldest I had to help.  I transferred out of school on Friday, May 8th, two days before evacuation.  We left with the voluntary group and reached our temporary center, the County Fair Grounds at one P.M. on Tuesday.  Then came the daily routine of camp life.  Meals at certain times, frequent talent shows, sand sports were some of them.  I went to summer school from June to October.  On hot nights my friends and I used to go wandering around the camp or take a walk around the track.  This center was a small place, containing ten blocks with a canteen, grandstand, hospital, barber shop, library, and ware houses.<br />
+	The things that majority of us enjoyed were movies although they weren&rsquo;t up to date, and free coupon books.<br />
+	Tulelake Lake, Arizona, or Manzanas were first guesses of our relocation center.  Then it became Colorado or Wyoming and finally Arkansas.<br />
+	After staying five months in the Stockton Center we had to move again.  The work was much simpler because we didn&rsquo;t have to sort out what to bring or what not to bring.  We brought everything.<br />
+	We were the first to enter camp and the last to leave.  We left our center on October 17th, 1942 and arrived in Rohwer on October 21st, 1942.  Our trip on the train was wonderful.  The states that we passed were Arizona, New Mexico, and Texas.  Many evacuees bought home made (sic) souvenirs from native Indian women the train stopped ay Yuma, Arizona.  Texas had beautiful scenery and I was surprised because I didn&rsquo;t expect it.  Some of the well know rivers we saw were Colorado River, Rio Grande, and Red River.<br />
+	It looks as if we have been through a lot although I am sure that we still have to endure more hardships later on than people would under ordinary circumstances.  This camp life is good experience for us because it teaches you how to cooperate and what each and every one of us must do to make everybody happy under difficult  conditions.<br />
+<br>
+	</div>
+	<div class="col-md-5 ">
+		<iframe id="attachment" width="99%" src="http://risingabove.cast.uark.edu/assets/thumbs/original_pdfs/autobiography_6_MSS-10-49-05-01-04.pdf" style="margin-top:10px;"></iframe>	</div>
+
+<div class="col-md-4 scrollable">
+	
+	<table class="table table-striped table-condensed">
+		<thead><tr><td colspan="2"><h4>&raquo; Record Metadata</h4></td></tr></thead>
+		<tbody>
+								<tr><td><strong>Autobiography Id: </strong></td><td>6</td></tr>
+								<tr><td><strong>Date Written: </strong></td><td>1942-12-16</td></tr>
+								<tr><td><strong>Creator: </strong></td><td>Alyce Okamura</td></tr>
+								<tr><td><strong>Description: </strong></td><td>Autobiography written by a student at Rohwer Center High School</td></tr>
+								<tr><td><strong>Location In Collection: </strong></td><td>BC-MSS-10-49-05-01-04</td></tr>
+								<tr><td><strong>Physical Description: </strong></td><td>9-page autobiography</td></tr>
+								<tr><td><strong>Dpi: </strong></td><td>300</td></tr>
+								<tr><td><strong>Scanned By: </strong></td><td>Steve Teske</td></tr>
+								<tr><td><strong>Scanned Date: </strong></td><td>2014-02-21</td></tr>
+								<tr><td><strong>File Type: </strong></td><td>PDF</td></tr>
+								<tr><td><strong>Attachment File Name: </strong></td><td>MSS-10-49-05-01-04.pdf</td></tr>
+								<tr><td><strong>Attachment File Size: </strong></td><td>17358930</td></tr>
+								<tr><td><strong>Attachment Content Type: </strong></td><td>application/pdf</td></tr>
+								<tr><td><strong>Attachment Updated At: </strong></td><td>2014-06-12 12:03:30</td></tr>
+					</tbody>
+		<thead><tr><td colspan="2"><h4>&raquo; Collection Facility Information</h4></td></tr></thead>
+		<tbody>
+							<tr><td><strong>Profile Name: </strong></td><td>BUTLER_GOULD</td></tr>
+							<tr><td><strong>Collection Facility: </strong></td><td>Butler Center for Arkansas Studies</td></tr>
+							<tr><td><strong>Collection Name: </strong></td><td>Mabel Rose Jamison Vogel / Rosalie Santine Gould Collection</td></tr>
+							<tr><td><strong>Machine Type: </strong></td><td>Scanner</td></tr>
+					</tbody>
+		<!-- <thead><tr><td colspan="2"><h4>&raquo; Created by: </h4></td></tr></thead> -->
+		<!-- <tbody>
+							<tr><td><strong>Email: </strong></td><td>mhodge@cals.org</td></tr>
+							<tr><td><strong>First Name: </strong></td><td>Michael</td></tr>
+							<tr><td><strong>Last Name: </strong></td><td>Hodge</td></tr>
+						<tr><td><strong>Created On: </strong></td><td>2014-06-12 09:54:45</td></tr>
+		</tbody>
+		<thead><tr><td colspan="2"><h4>&raquo; Last updated by: </h4></td></tr></thead> -->
+		<!-- <tbody>
+							<tr><td><strong>Email: </strong></td><td>mhodge@cals.org</td></tr>
+							<tr><td><strong>First Name: </strong></td><td>Michael</td></tr>
+							<tr><td><strong>Last Name: </strong></td><td>Hodge</td></tr>
+						<tr><td><strong>Updated On: </strong></td><td>2014-06-12 12:03:30</td></tr>
+		</tbody> -->
+		<thead><tr><td colspan="2"><h4>&raquo; Categories</h4></td></tr></thead>
+		<tbody>
+						<tr><td><strong>Categories: </strong></td><td>Arts & Literature, Education</td></tr>
+		</tbody>
+		<thead><tr><td colspan="2"><h4>&raquo; Keywords</h4></td></tr></thead>
+		<tbody>
+						<tr><td><strong>Keywords: </strong></td><td>Internment camps</td></tr>
+		</tbody>
+	</table>
+
+	<pre>
+
+	Array
+(
+    [autobiography_id] => 6
+    [profile_id] => 5
+    [date_written] => 1942-12-16
+    [creator] => Alyce Okamura
+    [description] => Autobiography written by a student at Rohwer Center High School
+    [transcription] => Autobiography- Okamura, Alyce
+
+My Autobiography
+
+	I came into this world at five P.M., November 29, 1926, at a little apartment house situated in the southern part of Sacramento City in Sacramento County, California.  It is now known as the capital of California although it is not the largest city in that state.  The Suttor’s Fort in Sacramento gives you an idea of how frontiersmen protected themselves in the earlier days.
+	The first three four years of my childhood was spent in that city and then we moved out to a farm.  During that time my little sister came into this life so I had a big sister and a little sister.  This farm was located far from anybody and I played with my older sister or toys, and amused myself with the baby.  I went to town many times with my father when he went on errands.  We had a green old-fashioned car.
+	While my father was farming my mother guided us, showing us the good from bad, how to play with dolls, made our clothes, cooked, and did what every mother would and should do for her children.  Then another baby, a boy this time, was borne in October 3, 1930, at the same place as I.  This made six in the family, three girls, one boy, and two parents.
+	Then two years later we moved to another farm where my second brother and the baby of the family was born.  Previously we had not been going to church because we lived so far from it but we moved to a better surrounding so we started toing to the Christian Church.  My parents are Buhhist (sic)  but (since) we went to Christian Church since it was much closer and mother wanted us to go to any kind of church just as long as we went.  Father raided strawberries, grapes, vegetables, and chickens.  I learned to skate then for we lived near a gravel road.
+	We moved again to another farm close by the center of a little town named Florin.  This time we went to Buddhist Church and I started school when I was seven.  It was a small school where only Japanese children went.  There was another school where the other races went but I heard recently, before the war, that these two schools were combined into one.  There were only Japanese students to talk to so we more or less talked in our native tongue which the teachers had a tough time correcting.  My favorite subjects then were arithmetic, reading, and art although I didn’t dislike any particular quarter.
+	Three years later when I was in the high fourth a great blow came on my mother and her children which probably changed our course in life.  Within a week after my father took to bed with pneumonia he passed away.  My mother was working in the city during the last year or so and we were living with our father in the country.  My mother could not manage the farm and she had to work to support five growing children so her immediate right after the funeral was to find a place in the city for us to live in.  One week later we found ourselves in our birth town, where mother was working at a restaurant.  That was in the year 1937.
+	I went to Lincoln School and skipped half a grade because my knowledge in arithmetic was half a year ahead of the rest of the class.  What a difference to associate with other nationalities besides Japanese.  I felt out of place although everybody treated me nice.  We stayed in that city for one year and one month, and moved this time to Stockton, California because of mother’s occupation.  Then I really came to know and make friends with people outside my race.  They were all wonderful.  I went to Buddhist Church every Sunday, and I also learned many slang expressions, began to understand how gossip started, and why people avoid gossipers.  Besides going to American school I also went to Japanese school after school hours.
+	Do I have any special talent?  No, so I enjoy listening and seeing other people’s talents.  I especially like to see talented artists’ work.  I was in a Basketball team during the last year I was there and it was a lot of fun besides developing my body.  Clubs were for people older than I, and I didn’t go in gangs but I have several good friends.  I love sports, especially basketball, tennis, ping-pong, archery, volleyball, and softball.  I would like to learn how to play hockey and badmington (sic).
+	My favorite studies now are Spanish, Mathematics, Reading, and Business subjects.
+	Collecting stamps and match covers were my hobbies buy at present I do not have any hobby.  Do I like movies?  I used to go almost every Sunday and I wish I could go now.  I love to listen to radios but we haven’t got any.  It’s such a pleasant way to spend your time.  We had a big one which could be used for phonograph playing too so I miss it more.  Social gathering is not in my line but I do go to socials now and then.  I love reading.  When I was in Stockton I brought home six to fourteen books a week.
+	I used to spend two or three weeks at the city, where mother was rooming, for my vacation when I was in Florin.  During my stay at Stockton I went to Santa Cruz once but the rest of the summers were spent at home reading, playing, or helping around the house.
+	About a year ago when United States went into war I started hearing rumors about evacuation concerning people living near the coast.  We lived close to the coast but I thought it was only for those living in San Francisco, Los Angeles, San Diego, etc. whose cities are located just next to the ocean.  But as weeks went by we were included too.  Now came the problem of what to bring to camp.  Mother was not well because she had been working too hard during the last five years.  She had to face another big responsibility.  April and May were busy months.  Shopping awaited us whenever there was time.  Materials were bought for making clothes and we had to hunt for suitcases.  Besides helping mother get ready I had my studies to do.  Temptations to play with my friends were great but being the second oldest I had to help.  I transferred out of school on Friday, May 8th, two days before evacuation.  We left with the voluntary group and reached our temporary center, the County Fair Grounds at one P.M. on Tuesday.  Then came the daily routine of camp life.  Meals at certain times, frequent talent shows, sand sports were some of them.  I went to summer school from June to October.  On hot nights my friends and I used to go wandering around the camp or take a walk around the track.  This center was a small place, containing ten blocks with a canteen, grandstand, hospital, barber shop, library, and ware houses.
+	The things that majority of us enjoyed were movies although they weren’t up to date, and free coupon books.
+	Tulelake Lake, Arizona, or Manzanas were first guesses of our relocation center.  Then it became Colorado or Wyoming and finally Arkansas.
+	After staying five months in the Stockton Center we had to move again.  The work was much simpler because we didn’t have to sort out what to bring or what not to bring.  We brought everything.
+	We were the first to enter camp and the last to leave.  We left our center on October 17th, 1942 and arrived in Rohwer on October 21st, 1942.  Our trip on the train was wonderful.  The states that we passed were Arizona, New Mexico, and Texas.  Many evacuees bought home made (sic) souvenirs from native Indian women the train stopped ay Yuma, Arizona.  Texas had beautiful scenery and I was surprised because I didn’t expect it.  Some of the well know rivers we saw were Colorado River, Rio Grande, and Red River.
+	It looks as if we have been through a lot although I am sure that we still have to endure more hardships later on than people would under ordinary circumstances.  This camp life is good experience for us because it teaches you how to cooperate and what each and every one of us must do to make everybody happy under difficult  conditions.
+
+    [location_in_collection] => BC-MSS-10-49-05-01-04
+    [physical_description] => 9-page autobiography
+    [dpi] => 300
+    [scanned_by] => Steve Teske
+    [scanned_date] => 2014-02-21
+    [file_type] => PDF
+    [created_by] => 43
+    [updated_by] => 43
+    [created_at] => 2014-06-12 09:54:45
+    [updated_at] => 2014-06-12 12:03:30
+    [attachment_file_name] => MSS-10-49-05-01-04.pdf
+    [attachment_file_size] => 17358930
+    [attachment_content_type] => application/pdf
+    [attachment_updated_at] => 2014-06-12 12:03:30
+)
+
+	</pre></div>
+</div>
+<script>
+
+$(window).ready(function(){
+	$(function() {  
+	   var window_height = $(window).height(),
+	   content_height = window_height - 10 - ($('.navbar').height() * 2);
+	   $('.scrollable').height(content_height);
+	   	if($('#attachment').length){
+			$('#attachment').height(content_height-5);
+		}
+		if($('#cv').length){
+			// $('#cv').height(content_height-50);
+			// $('#cv').width(800);
+			
+		}
+	});
+});
+$( window ).resize(function() {
+   var window_height = $(window).height(),
+   content_height = window_height - 10 - ($('.navbar').height() * 2);
+   $('.scrollable').height(content_height);
+   	if($('#attachment').length){
+		$('#attachment').height(content_height-5);
+	}
+	if($('#cv').length){
+		$('#cv').height(content_height-5);
+	}
+
+});
+if($('#attachment').length){
+	$('#attachment').css('border','none');
+	$('#attachment').css('padding','none');
+	$('#attachment').css('margin','none');
+	}
+
+if($('#cv').length){
+	$("#cv").attr("width", $('#jsc3d_viewer').width());
+	$("#cv").attr("height", $('#jsc3d_viewer').height());
+	var canvas = document.getElementById('cv');
+	var viewer = new JSC3D.Viewer(canvas);
+	//viewer.setParameter('SceneUrl', 'http://risingabove.cast.uark.edu/assets/scenes/BC2011-001-0073_panel_917k.obj');
+	var urlobj = 'http://risingabove.cast.uark.edu/assets/scenes/MSS-10-49-05-01-04.3ds';
+	console.log(urlobj);
+	viewer.setParameter('SceneUrl', urlobj);
+	viewer.setParameter('InitRotationX', 0);
+	viewer.setParameter('InitRotationY', 0);
+	viewer.setParameter('InitRotationZ', 0);
+	viewer.setParameter('ModelColor', '#CAA618');
+	viewer.setParameter('BackgroundColor1', '#E5D7BA');
+	viewer.setParameter('BackgroundColor2', '#383840');
+	//viewer.setParameter('RenderMode', 'textureflat');
+	viewer.setParameter('RenderMode', 'texture');
+	//viewer.setParameter('MipMapping', 'on');
+	viewer.setParameter('Renderer', 'webgl');
+	viewer.setParameter('Definition', 'high');
+	viewer.init();
+	viewer.update();
+
+	$(document).ready(function(){
+		
+		viewer.update();
+	})
+}
+
+$(document).ready(function(){
+	$('.set-texture').click(function(){
+		var param = $(this).attr('id');
+		setBtnEvents($('.set-texture'), $(this));
+		viewer.setRenderMode(param);
+		viewer.update();
+	});
+	$('.set-definition').click(function(){
+		var param = $(this).attr('id');
+		setBtnEvents($('.set-definition'), $(this));
+		viewer.setDefinition(param);
+		viewer.update();
+	});
+	$('#scenes').change(function(){
+		var url = 'http://risingabove.cast.uark.edu/assets/scenes/'+$(this).val();
+		viewer.replaceSceneFromUrl(url);
+		viewer.update();
+	});
+	function setBtnEvents(elem, _this){
+		elem.each(function(index, value){
+			$(this).removeClass("btn-info");
+			$(this).removeClass("btn-default");
+			$(this).addClass("btn-default");
+		});
+		_this.toggleClass("btn-info");
+	};
+})
+
+
+</script><style>
+
+
+</style>
+</div>
+<div class="container-fluid">
+<div class="row footer open-sans">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<h2>Funding</h2>
+					<img style="max-height:100px;float:left;padding-right:10px;padding-bottom:5px;" class="img img-responsive logo-big center-block" src="http://risingabove.cast.uark.edu/assets/images/logos/Logo_NoText_md_semi-white.png" />
+				<p>
+					<!-- The information displayed on this website was created from a collaborative effort between the Center for Advanced Spatial Technologies, University of Arknsas and Arkansas State University with funding provided by a grant from the National Parks Service. -->
+					This project was funded, in part, by a grant from the U.S. Department of the Interior, National Park Service, Japanese American Confinement Sites Grant Program. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the U.S. Department of the Interior.
+				</p>
+
+			</div>
+			<div class="col-md-4">
+				<img class="img img-responsive center-block" src="http://risingabove.cast.uark.edu/assets/images/logos/cast-footer.png" />
+			</div>
+			<div class="col-md-4">
+				<h2>Related</h2>
+				<ul style="margin:0px;padding:0px;padding-left:20px;">
+					<li>Rohwer Heritage Site</li><br>
+					<li>Butler Center Collection</li><br>
+					<li>National Parks Service</li><br>
+					<li>WWII Japanese - American Internment Museum</li>
+				</ul>
+				
+			</div>
+			
+		</div>
+	</div>
+
+</div>
+
+</div> <!-- container fluid end from header -->
+</body>
+</html>
